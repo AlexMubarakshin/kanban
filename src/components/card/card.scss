@@ -1,0 +1,14 @@
+.task-card {
+    padding: 8px;
+    background: #fff;
+    box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    
+    &:not(:last-child) {
+        margin-bottom: 8px;
+    }
+
+    .task-card__id {}
+    .task-card__name {}
+    .task-card__description {}
+}
