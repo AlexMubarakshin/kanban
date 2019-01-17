@@ -7,7 +7,8 @@
     "dev": "webpack --mode development -w",
     "prod": "webpack --mode production",
     "analyze:prod": "webpack --mode production --env.analyze",
-    "analyze:dev": "webpack --mode development --env.analyze"
+    "analyze:dev": "webpack --mode development --env.analyze",
+    "start": "npm run prod && node ./server.js"
   },
   "author": "",
   "license": "ISC",

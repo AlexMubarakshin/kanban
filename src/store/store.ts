@@ -1,5 +1,8 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
+import { persistStore, persistReducer, PersistConfig } from "redux-persist";
 import logger from "redux-logger";
+
+import storage from "redux-persist/lib/storage";
 
 import { tasksReducer, ITasksStore } from "./tasks/taskReducer";
 import { columnReducer, IColumnStore } from "./column/columnReducer";
@@ -9,14 +12,29 @@ export interface IApplicationStore {
     tasksStore: ITasksStore;
 }
 
+const persistConfig: PersistConfig  = {
+    key: "root",
+    keyPrefix: "",
+    storage,
+};
+
 const applicationReducer = combineReducers({
     columnsStore: columnReducer,
     tasksStore: tasksReducer
 });
 
-export const store = createStore(
-    applicationReducer,
+
+const persistedReducer = persistReducer(persistConfig, applicationReducer);
+
+const store = createStore(
+    persistedReducer,
+    {},
     applyMiddleware(logger)
 );
 
-// store.subscribe(() => { });
+let persistor = persistStore(store);
+
+export default {
+    store,
+    persistor
+};

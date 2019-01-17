@@ -8,7 +8,7 @@ const buildConfig = {
         "app": "./src/index.tsx"
     },
     output: {
-        path: path.resolve(__dirname, "./build/"),
+        path: path.resolve(__dirname, "./static/app/"),
         filename: "[name].js",
         publicPath: "dist"
     },
