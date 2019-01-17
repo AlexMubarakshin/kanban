@@ -1,9 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-
-import { Project } from "./components/project/project";
+import { App } from "./app";
 
 ReactDOM.render(
-    <Project />,
+    <App />,
     document.getElementById("kanban-app")
 );

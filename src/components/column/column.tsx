@@ -1,38 +1,72 @@
 import * as React from "react";
-import { ITask } from "../../types/task";
+import { connect } from "react-redux";
+
+import { ITask, ITasks } from "../../types/task";
 import { Card } from "../card/card";
 
 import "./column.scss";
+import { Droppable } from "react-beautiful-dnd";
+import { IApplicationStore } from "../../store/store";
+import { createNewTask } from "../../store/tasks/taskAction";
+import { ITasksStore } from "../../store";
+import { getHighestId } from "../../utils";
+
+const mapStateToProps = (state: IApplicationStore) => ({
+    tasks: state.tasksStore.tasks
+});
 
 interface IColumnProps {
     title: string;
-    tasks: ITask[];
+    tasks?: ITasks;
+
+    tasksID: number[];
+    columnID: number;
+
+    dispatch?: Function;
 }
 
+@connect(mapStateToProps)
 export class Column extends React.Component<IColumnProps> {
+
     private onNewTaskClick = () => {
-        console.info("Not implemented!");
+        let newTaskID = getHighestId(Object.keys(this.props.tasks)) + 1;
+
+        let newTask: ITask = {
+            id: newTaskID,
+            description: "TEMP",
+            name: "TEMP TASK"
+        };
+        this.props.dispatch(createNewTask(newTask, this.props.columnID));
     }
 
     render() {
+        const { props } = this;
         return (
-            <div className="task-column">
-                <div className="task-column__title">{this.props.title}</div>
-                <div className="task-column__list">
-                    {
-                        this.props.tasks.map((task) => (
-                            <Card
-                                key={task.id}
-                                id={task.id}
-                                name={task.name}
-                                description={task.description} />
-                        ))
-                    }
-                </div>
-                <div className="task-column__footer">
-                    <div className="task-column__new-task" onClick={this.onNewTaskClick}>+ Add new task</div>
-                </div>
-            </div>
+            <Droppable droppableId={props.columnID.toString()}>
+                {(provided, snapshot) => (
+                    <div className="task-column" ref={provided.innerRef} {...provided.droppableProps} >
+                        <div className="task-column__title">{props.title}</div>
+                        <div className="task-column__list">
+                            {
+                                props.tasksID.map((id, index) => {
+                                    return (<Card
+                                        key={props.tasks[id].id}
+                                        id={props.tasks[id].id}
+                                        name={props.tasks[id].name}
+                                        description={props.tasks[id].description}
+                                        index={index} />);
+                                })
+                            }
+                        </div>
+                        {
+                            provided.placeholder
+                        }
+                        <div className="task-column__footer">
+                            <div className="task-column__new-task" onClick={this.onNewTaskClick}>+ Add new task</div>
+                        </div>
+                    </div>
+                )}
+            </Droppable>
         );
     }
 }
