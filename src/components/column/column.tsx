@@ -2,14 +2,16 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 import { ITask, ITasks } from "../../types/task";
-import { Card } from "../card/card";
+import { Task } from "../task/task";
 
-import "./column.scss";
 import { Droppable } from "react-beautiful-dnd";
 import { IApplicationStore } from "../../store/store";
 import { createNewTask } from "../../store/tasks/taskAction";
-import { ITasksStore } from "../../store";
+
 import { getHighestId } from "../../utils";
+import { Grid } from "@material-ui/core";
+import { TaskCreate } from "../task/task-create";
+import { ColumnTitle } from "./column-titile";
 
 const mapStateToProps = (state: IApplicationStore) => ({
     tasks: state.tasksStore.tasks
@@ -44,26 +46,36 @@ export class Column extends React.Component<IColumnProps> {
         return (
             <Droppable droppableId={props.columnID.toString()}>
                 {(provided, snapshot) => (
-                    <div className="task-column" ref={provided.innerRef} {...provided.droppableProps} >
-                        <div className="task-column__title">{props.title}</div>
-                        <div className="task-column__list">
+                    <div
+                        className="task-column"
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}>
+                        <ColumnTitle
+                            columnName={props.title}
+                            tasksCount={props.tasksID.length} />
+                        <Grid
+                            container
+                            spacing={16}>
                             {
                                 props.tasksID.map((id, index) => {
-                                    return (<Card
-                                        key={props.tasks[id].id}
-                                        id={props.tasks[id].id}
-                                        name={props.tasks[id].name}
-                                        description={props.tasks[id].description}
-                                        index={index} />);
+                                    return (
+                                        <Grid item key={props.tasks[id].id}>
+                                            <Task
+                                                id={props.tasks[id].id}
+                                                name={props.tasks[id].name}
+                                                description={props.tasks[id].description}
+                                                index={index} />
+                                        </Grid>
+                                    );
                                 })
                             }
-                        </div>
-                        {
-                            provided.placeholder
-                        }
-                        <div className="task-column__footer">
-                            <div className="task-column__new-task" onClick={this.onNewTaskClick}>+ Add new task</div>
-                        </div>
+                            {
+                                provided.placeholder
+                            }
+                            <Grid item>
+                                <TaskCreate onPress={this.onNewTaskClick} />
+                            </Grid>
+                        </Grid>
                     </div>
                 )}
             </Droppable>

@@ -1,6 +1,5 @@
 import * as React from "react";
-
-import "./column.scss";
+import { Button } from "@material-ui/core";
 
 interface IColumnCreate {
     onNewPress(): void;
@@ -9,9 +8,9 @@ interface IColumnCreate {
 export class ColumnCreate extends React.PureComponent<IColumnCreate> {
     render() {
         return (
-            <div className={"task-column"}>
-                <div className={"task-column__title"} onClick={this.props.onNewPress}>+ Add new column</div>
-            </div>
+            <Button onClick={this.props.onNewPress}>
+                + Add new column
+            </Button>
         );
     }
 }

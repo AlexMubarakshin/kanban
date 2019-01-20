@@ -2,10 +2,10 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { Grid } from "@material-ui/core";
 
 import { Column } from "../column/column";
 
-import "./board.scss";
 import { ColumnCreate } from "../column/column-create";
 import { IApplicationStore } from "../../store/store";
 import { IColumns } from "../../types/column";
@@ -61,18 +61,28 @@ export class Board extends React.Component<IBoardProps> {
     render() {
         return (
             <div className="task-board-container">
-                <DragDropContext onDragEnd={this.onDragEnd}>
-                    {
-                        Object.keys(this.props.columns).map(key => (
-                            <Column
-                                key={key}
-                                tasksID={this.props.columns[key].taskIDs}
-                                columnID={this.props.columns[key].id}
-                                title={this.props.columns[key].name} />
-                        ))
-                    }
-                    <ColumnCreate onNewPress={this.onNewColumnPress} />
-                </DragDropContext>
+                <Grid
+                    direction={"row"}
+                    container
+                    spacing={16}
+                    wrap={"nowrap"}>
+                    <DragDropContext onDragEnd={this.onDragEnd}>
+                        {
+                            Object.keys(this.props.columns).map(key => (
+                                <Grid item xs={4}>
+                                    <Column
+                                        key={key}
+                                        tasksID={this.props.columns[key].taskIDs}
+                                        columnID={this.props.columns[key].id}
+                                        title={this.props.columns[key].name} />
+                                </Grid>
+                            ))
+                        }
+                        <Grid item>
+                            <ColumnCreate onNewPress={this.onNewColumnPress} />
+                        </Grid>
+                    </DragDropContext>
+                </Grid>
             </div>
         );
     }
