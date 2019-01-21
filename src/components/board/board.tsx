@@ -6,7 +6,7 @@ import { Grid } from "@material-ui/core";
 
 import { Column } from "../column/column";
 
-import { ColumnCreate } from "../column/column-create";
+import { ColumnCreateButton } from "../column/column-create";
 import { IApplicationStore } from "../../store/store";
 import { IColumns } from "../../types/column";
 import { createNewColumn } from "../../store/column/columnActions";
@@ -64,25 +64,25 @@ export class Board extends React.Component<IBoardProps> {
                 <Grid
                     direction={"row"}
                     container
-                    spacing={16}
+                    spacing={24}
+                    style={{margin: 0}}
                     wrap={"nowrap"}>
-                    <DragDropContext onDragEnd={this.onDragEnd}>
-                        {
-                            Object.keys(this.props.columns).map((key) => (
-                                <Grid item xs={4} key={key}>
-                                    <Column
-                                        key={key}
-                                        tasksID={this.props.columns[key].taskIDs}
-                                        columnID={this.props.columns[key].id}
-                                        title={this.props.columns[key].name} />
-                                </Grid>
-                            ))
-                        }
-                        <Grid item>
-                            <ColumnCreate onNewPress={this.onNewColumnPress} />
-                        </Grid>
-                    </DragDropContext>
+
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            {
+                                Object.keys(this.props.columns).map((key) => (
+                                    <Grid item xs={3} key={key}>
+                                        <Column
+                                            key={key}
+                                            tasksID={this.props.columns[key].taskIDs}
+                                            columnID={this.props.columns[key].id}
+                                            title={this.props.columns[key].name} />
+                                    </Grid>
+                                ))
+                            }
+                        </DragDropContext>
                 </Grid>
+                <ColumnCreateButton onNewPress={this.onNewColumnPress} />
             </div>
         );
     }

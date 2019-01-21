@@ -13,6 +13,7 @@ interface ITaskProps {
 }
 
 export class Task extends React.PureComponent<ITaskProps> {
+
     render() {
         const { task, index, onClick} = this.props;
         return (
@@ -28,7 +29,7 @@ export class Task extends React.PureComponent<ITaskProps> {
                             onClick={() => onClick(task)}>
                             <Card>
                                 <CardContent>
-                                    <Typography variant="headline" component="h2" noWrap>
+                                    <Typography variant="h6" component="h2" noWrap>
                                         {task.name}
                                     </Typography>
                                     <Typography color="textSecondary" noWrap>

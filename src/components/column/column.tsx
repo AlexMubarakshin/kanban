@@ -84,7 +84,7 @@ export class Column extends React.Component<IColumnProps, IColumnState> {
                                 tasksCount={props.tasksID.length} />
                             <Grid
                                 container
-                                spacing={16}>
+                                spacing={24}>
                                 {
                                     props.tasksID.map((id, index) => {
                                         return (

@@ -51,8 +51,10 @@ export interface IColumnStore {
     columns: IColumns;
 }
 
-const initialState = {
-    columns: {}
+const initialState: IColumnStore = {
+    columns: {
+        0: { taskIDs: [], id: 0, name: "Backlog" }
+    }
 };
 
 export const columnReducer = (state = initialState, action: any): IColumnStore => {

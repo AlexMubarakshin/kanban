@@ -14,13 +14,13 @@ export class ColumnTitle extends React.PureComponent<IColumnTitleProps> {
                 direction={"row"}
                 spacing={8}>
                 <Grid item>
-                    <Typography variant={"h6"}>
+                    <Typography variant={"subtitle1"}>
                         {this.props.columnName}
                     </Typography>
                 </Grid>
                 <Grid item>
                     <Typography
-                        variant={"h6"}
+                        variant={"subtitle2"}
                         color={"textSecondary"}>
                         {`(${this.props.tasksCount})`}
                     </Typography>
