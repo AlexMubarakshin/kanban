@@ -68,8 +68,8 @@ export class Board extends React.Component<IBoardProps> {
                     wrap={"nowrap"}>
                     <DragDropContext onDragEnd={this.onDragEnd}>
                         {
-                            Object.keys(this.props.columns).map(key => (
-                                <Grid item xs={4}>
+                            Object.keys(this.props.columns).map((key) => (
+                                <Grid item xs={4} key={key}>
                                     <Column
                                         key={key}
                                         tasksID={this.props.columns[key].taskIDs}

@@ -3,38 +3,39 @@ import * as React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 import { Card, CardContent, Typography } from "@material-ui/core";
+import { ITask } from "../../types/task";
 
 interface ITaskProps {
-    id: number;
-    name: string;
-    description: string;
+    task: ITask;
 
     index: number;
+    onClick(task: ITask): void;
 }
 
 export class Task extends React.PureComponent<ITaskProps> {
     render() {
-        const { props } = this;
+        const { task, index, onClick} = this.props;
         return (
             <Draggable
-                index={props.index}
-                draggableId={props.id.toString()}>
+                index={index}
+                draggableId={task.id.toString()}>
                 {
                     (provided, snapshot) => (
                         <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            {...provided.dragHandleProps}>
+                            {...provided.dragHandleProps}
+                            onClick={() => onClick(task)}>
                             <Card>
                                 <CardContent>
                                     <Typography variant="headline" component="h2" noWrap>
-                                        {props.name}
+                                        {task.name}
                                     </Typography>
                                     <Typography color="textSecondary" noWrap>
-                                        {props.description}
+                                        {task.description}
                                     </Typography>
                                     <Typography component="p" noWrap>
-                                        {`#${props.id}`}
+                                        {`#${task.id}`}
                                     </Typography>
                                 </CardContent>
                             </Card>

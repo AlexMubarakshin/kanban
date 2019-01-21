@@ -1,11 +1,9 @@
 import { ITasks, ITask } from "../../types/task";
 import { TASK_CREATE, TASK_EDIT, TASK_DELETE } from "../actions";
-import { getHighestId } from "../../utils";
 
-
-function createNewTask(oldTasks: ITasks, newTask: ITask): ITasks {
+function editTask(oldTasks: ITasks, editedTask: ITask) {
     const updatedTasks = Object.assign({}, oldTasks);
-    const updatedNewTask = Object.assign({}, newTask);
+    const updatedNewTask = Object.assign({}, editedTask);
 
     updatedTasks[updatedNewTask.id] = updatedNewTask;
 
@@ -23,11 +21,10 @@ const initialState: ITasksStore = {
 export const tasksReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case TASK_CREATE:
-            return {
-                tasks: createNewTask(state.tasks, action.task)
-            };
         case TASK_EDIT:
-            return state;
+            return {
+                tasks: editTask(state.tasks, action.task)
+            };
         case TASK_DELETE:
             return state;
 
