@@ -54,7 +54,7 @@ export class Column extends React.Component<IColumnProps, IColumnState> {
 
     private onEditTaskClose = (editedTask: ITask) => {
         if (editedTask) {
-            if (editedTask.id) {
+            if (editedTask.id !== undefined) {
                 this.props.dispatch(editTask(editedTask.id, editedTask));
             } else {
                 let taskID = getHighestId(Object.keys(this.props.tasks)) + 1;
