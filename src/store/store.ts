@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import { persistStore, persistReducer, PersistConfig } from "redux-persist";
+import ReduxThunk from "redux-thunk";
 import logger from "redux-logger";
 
 import storage from "redux-persist/lib/storage";
@@ -26,10 +27,12 @@ const applicationReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, applicationReducer);
 
+const middlewares = [logger, ReduxThunk];
+
 const store = createStore(
     persistedReducer,
     {},
-    applyMiddleware(logger)
+    applyMiddleware(...middlewares)
 );
 
 let persistor = persistStore(store);

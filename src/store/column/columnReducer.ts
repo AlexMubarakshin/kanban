@@ -47,6 +47,14 @@ function moveTaskVertically(id: number, newIndex: number, columnID: number, colu
     };
 }
 
+function removeColumn(columnID: number, columns: IColumns): IColumns {
+    const updatedColumns = Object.assign({}, columns);
+
+    delete updatedColumns[columnID];
+
+    return updatedColumns;
+}
+
 export interface IColumnStore {
     columns: IColumns;
 }
@@ -70,6 +78,13 @@ export const columnReducer = (state = initialState, action: any): IColumnStore =
         case COLUMN_RENAME:
             return state;
         case COLUMN_DELETE:
+            const isBacklogColumn = action.id === 0;
+            if (!isBacklogColumn) {
+                 return {
+                     columns: removeColumn(action.id, state.columns)
+                 };
+            }
+
             return state;
 
         case TASK_CREATE:
