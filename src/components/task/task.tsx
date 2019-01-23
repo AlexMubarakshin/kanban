@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Draggable } from "react-beautiful-dnd";
 
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { Card, CardContent, Typography, Divider } from "@material-ui/core";
 import { ITask } from "../../types/task";
 
 interface ITaskProps {
@@ -15,7 +15,9 @@ interface ITaskProps {
 export class Task extends React.PureComponent<ITaskProps> {
 
     render() {
-        const { task, index, onClick} = this.props;
+        const { task, index, onClick } = this.props;
+        const hasDescription = !!task.description;
+
         return (
             <Draggable
                 index={index}
@@ -32,12 +34,16 @@ export class Task extends React.PureComponent<ITaskProps> {
                                     <Typography variant="h6" component="h2" noWrap>
                                         {task.name}
                                     </Typography>
-                                    <Typography color="textSecondary" noWrap>
-                                        {task.description}
-                                    </Typography>
-                                    <Typography component="p" noWrap>
-                                        {`#${task.id}`}
-                                    </Typography>
+                                    {
+                                        hasDescription && (
+                                            <>
+                                                <Divider />
+                                                <Typography color="textSecondary" noWrap>
+                                                    {task.description}
+                                                </Typography>
+                                            </>
+                                        )
+                                    }
                                 </CardContent>
                             </Card>
                         </div>

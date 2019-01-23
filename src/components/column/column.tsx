@@ -13,17 +13,16 @@ import { Grid } from "@material-ui/core";
 import { TaskCreateButton } from "../task/task-create-button";
 import { ColumnTitle } from "./column-title";
 import { TaskModal, TaskModalMode } from "../task/task-modal";
+import { IColumn } from "../../types/column";
 
 const mapStateToProps = (state: IApplicationStore) => ({
     tasks: state.tasksStore.tasks
 });
 
 interface IColumnProps {
-    title: string;
+    column: IColumn;
     tasks?: ITasks;
-
-    tasksID: number[];
-    columnID: number;
+    onColumnRemovePress(columnID: number): void;
 
     dispatch?: Function;
 }
@@ -53,13 +52,15 @@ export class Column extends React.Component<IColumnProps, IColumnState> {
     }
 
     private onEditTaskClose = (editedTask: ITask) => {
+        const {taskIDs, id} = this.props.column;
         if (editedTask) {
-            if (editedTask.id !== undefined) {
+            const isEditMode = editedTask.id !== undefined;
+            if (isEditMode) {
                 this.props.dispatch(editTask(editedTask.id, editedTask));
             } else {
                 let taskID = getHighestId(Object.keys(this.props.tasks)) + 1;
                 const newTask = Object.assign(editedTask, { id: taskID});
-                this.props.dispatch(createNewTask(newTask, this.props.columnID));
+                this.props.dispatch(createNewTask(newTask, id));
             }
         }
 
@@ -69,24 +70,28 @@ export class Column extends React.Component<IColumnProps, IColumnState> {
         });
     }
 
+    private onColumnDelete = () => {
+        console.warn("Not implemented!");
+    }
+
     render() {
-        const { props, state } = this;
+        const { props, state, onColumnDelete } = this;
         return (
             <>
-                <Droppable droppableId={props.columnID.toString()}>
+                <Droppable droppableId={props.column.id.toString()}>
                     {(provided, snapshot) => (
                         <div
                             className="task-column"
                             ref={provided.innerRef}
                             {...provided.droppableProps}>
                             <ColumnTitle
-                                columnName={props.title}
-                                tasksCount={props.tasksID.length} />
+                                onColumnDelete={onColumnDelete}
+                                column={props.column}/>
                             <Grid
                                 container
                                 spacing={24}>
                                 {
-                                    props.tasksID.map((id, index) => {
+                                    props.column.taskIDs.map((id, index) => {
                                         return (
                                             <Grid
                                                 xs={12}

@@ -58,29 +58,34 @@ export class Board extends React.Component<IBoardProps> {
         this.props.dispatch(createNewColumn("New column"));
     }
 
+    private onColumnRemovePress = (columnID: number) => {
+        console.warn("Not implemented!");
+    }
+
     render() {
         return (
-            <div className="task-board-container">
+            <div
+                className="task-board-container"
+                style={{ margin: 20 }} >
                 <Grid
                     direction={"row"}
                     container
                     spacing={24}
-                    style={{margin: 0}}
+                    style={{ margin: 0 }}
                     wrap={"nowrap"}>
 
-                        <DragDropContext onDragEnd={this.onDragEnd}>
-                            {
-                                Object.keys(this.props.columns).map((key) => (
-                                    <Grid item xs={3} key={key}>
-                                        <Column
-                                            key={key}
-                                            tasksID={this.props.columns[key].taskIDs}
-                                            columnID={this.props.columns[key].id}
-                                            title={this.props.columns[key].name} />
-                                    </Grid>
-                                ))
-                            }
-                        </DragDropContext>
+                    <DragDropContext onDragEnd={this.onDragEnd}>
+                        {
+                            Object.keys(this.props.columns).map((key) => (
+                                <Grid item xs={3} key={key}>
+                                    <Column
+                                        key={key}
+                                        column={this.props.columns[key]}
+                                        onColumnRemovePress={this.onColumnRemovePress} />
+                                </Grid>
+                            ))
+                        }
+                    </DragDropContext>
                 </Grid>
                 <ColumnCreateButton onNewPress={this.onNewColumnPress} />
             </div>
