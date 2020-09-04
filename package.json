@@ -16,7 +16,7 @@
     "@types/react": "16.7.19",
     "connect": "3.6.6",
     "css-loader": "2.1.0",
-    "node-sass": "4.11.0",
+    "node-sass": "4.13.1",
     "react": "16.7.0",
     "react-dom": "16.7.0",
     "redux-logger": "3.0.6",
